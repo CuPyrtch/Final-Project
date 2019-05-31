@@ -59,7 +59,7 @@ class Shooter(Sprite):
     def RotateROff(self, event):
         self.vx = 0
     def ShootOn(self, event):
-        Blast.shoot(self.position,450,Blast.y,Blast.time)
+        Blast.shoot(self.position,450,Blast.y,0)
     def ShootOff(self, event):
         shoot = False
 
@@ -80,6 +80,9 @@ class Enemy(Sprite):
         self.x += self.vx
         self.y += self.vy
         self.rotation += self.vr
+    def step(self):
+        Enemy.vy = self.vy
+    
 
 class SpaceShooter(App):
     def __init__(self):
