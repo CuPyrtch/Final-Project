@@ -6,12 +6,16 @@ r = input("What do you want the difficulty to be? 1 = Easy, 2 = Medium, 3 = Extr
 
 if r == "1":
     f = .25
+    print("Easy mode selected!")
 elif r == "2":
     f = .5
+    print("Medium mode selected!")
 elif r == "3":
     f = 1
+    print("Extreme mode selected!!!")
 else:
     f = .75
+    print("No input given, defaulted to Medium")
 
 class Blast(Sprite):
     asset = ImageAsset("images/player1.png", Frame(134,30,18,30), 1, 'vertical')
@@ -122,12 +126,11 @@ class SpaceShooter(App):
    
         self.blast = Blast(self)
         SpaceShooter.listenKeyEvent("keydown", "space", self.ShootOn)
-        SpaceShooter.listenKeyEvent("keyup", "space", self.ShootOff)
 
     def ShootOn(self, event):
         self.blast.shoot(self.shooter.position,430,0)
-    def ShootOff(self, event):
-        shoot = False
+        self.vy = -1
+
         
    
     def step(self):
