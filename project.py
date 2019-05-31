@@ -26,6 +26,7 @@ class Blast(Sprite):
         self.visible = False
         self.firing = False
         self.time = 0
+        self.vy = -1
         
     def shoot(self, position, velocity, time):
         self.position = position
@@ -88,9 +89,7 @@ class Enemy(Sprite):
         self.x += self.vx
         self.y += self.vy
         self.rotation += self.vr
-    def step(self):
-        self.y += self.vy
-    
+
 
 class SpaceShooter(App):
     def __init__(self):
@@ -132,7 +131,6 @@ class SpaceShooter(App):
         self.vy = -1
 
         
-   
     def step(self):
         for ship in self.getSpritesbyClass(Shooter):
             ship.step()
