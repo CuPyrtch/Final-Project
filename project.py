@@ -9,15 +9,15 @@ class Blast(Sprite):
     collisionasset = CircleAsset(5)
     
     def __init__(self, app):
-        super().__init__(Blast.asset, Blast.collisionasset, (0,0), (0,0))
+        super().__init__(Blast.asset,  (0,0))
         self.visible = False
         self.firing = False
         self.time = 0
         
     def shoot(self, position, velocity, time):
         self.position = position
-        self.vx = velocity[0]
-        self.vy = velocity[1]
+        self.vx = 0
+        self.vy = 1
         self.time = time
         self.visible = True
         self.firing = True
