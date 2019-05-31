@@ -6,7 +6,7 @@ r = input("What do you want the difficulty to be? .5 = Easy, 1 = Medium, 2 = Ext
 
 class Blast(Sprite):
     asset = ImageAsset("images/player1.png", Frame(119,90,50,50), 1, 'vertical')
-    collisionasset = CircleAsset(4)
+    collisionasset = CircleAsset(5)
     
     def __init__(self, app):
         super().__init__(Blast.asset, Blast.collisionasset, (0,0), (0,0))
@@ -37,11 +37,10 @@ class Shooter(Sprite):
         self.vy = 0
         self.vr = 0
         self.rotation = 0
-        self.thrust = 0
-        SpaceShooter.listenKeyEvent("keydown", "a", self.RotateLOn)
-        SpaceShooter.listenKeyEvent("keyup", "a", self.RotateLOff)
-        SpaceShooter.listenKeyEvent("keydown", "d", self.RotateROn)
-        SpaceShooter.listenKeyEvent("keyup", "d", self.RotateROff)
+        SpaceShooter.listenKeyEvent("keydown", "a", self.LOn)
+        SpaceShooter.listenKeyEvent("keyup", "a", self.LOff)
+        SpaceShooter.listenKeyEvent("keydown", "d", self.ROn)
+        SpaceShooter.listenKeyEvent("keyup", "d", self.ROff)
         SpaceShooter.listenKeyEvent("keydown", "space", self.ShootOn)
         SpaceShooter.listenKeyEvent("keyup", "space", self.ShootOff)
         
@@ -50,13 +49,13 @@ class Shooter(Sprite):
         self.x += self.vx
         self.y += self.vy
         self.rotation += self.vr
-    def RotateLOn(self, event):
+    def LOn(self, event):
         self.vx = -3
-    def RotateLOff(self, event):
+    def LOff(self, event):
         self.vx = 0
-    def RotateROn(self, event):
+    def ROn(self, event):
         self.vx = 3
-    def RotateROff(self, event):
+    def ROff(self, event):
         self.vx = 0
     def ShootOn(self, event):
         Blast.shoot(self.position,450,Blast.y,0)
