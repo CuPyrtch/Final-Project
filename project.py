@@ -2,10 +2,19 @@ from ggame import App, RectangleAsset, ImageAsset, Sprite, LineStyle, Color, Fra
 from ggame import SoundAsset, Sound, TextAsset, Color
 import math
 from time import time
-r = input("What do you want the difficulty to be? .5 = Easy, 1 = Medium, 2 = Extreme!")
+r = input("What do you want the difficulty to be? 1 = Easy, 2 = Medium, 3 = Extreme!")
+
+if r == "1":
+    f = .25
+elif r == "2":
+    f = .5
+elif r == "3":
+    f = 1
+else:
+    f = .75
 
 class Blast(Sprite):
-    asset = ImageAsset("images/player1.png", Frame(119,90,50,50), 1, 'vertical')
+    asset = ImageAsset("images/player1.png", Frame(134,30,18,30), 1, 'vertical')
     collisionasset = CircleAsset(5)
     
     def __init__(self, app):
@@ -31,12 +40,14 @@ class Shooter(Sprite):
     asset = ImageAsset("images/player1.png", 
         Frame(119,90,50,50), 1, 'vertical')
         
+    
     def __init__(self, position):
         super().__init__(Shooter.asset, position)
         self.vx = 0
         self.vy = 0
         self.vr = 0
         self.rotation = 0
+        self.fxcenter = .31
         SpaceShooter.listenKeyEvent("keydown", "a", self.LOn)
         SpaceShooter.listenKeyEvent("keyup", "a", self.LOff)
         SpaceShooter.listenKeyEvent("keydown", "d", self.ROn)
@@ -48,11 +59,11 @@ class Shooter(Sprite):
         self.y += self.vy
         self.rotation += self.vr
     def LOn(self, event):
-        self.vx = -3
+        self.vx = -5
     def LOff(self, event):
         self.vx = 0
     def ROn(self, event):
-        self.vx = 3
+        self.vx = 5
     def ROff(self, event):
         self.vx = 0
 
@@ -64,7 +75,7 @@ class Enemy(Sprite):
     def __init__(self, position):
         super().__init__(Enemy.asset, position)
         self.vx = 0
-        self.vy = 1
+        self.vy = f
         self.vr = 0
         self.rotation = 0
         self.thrust = 0
@@ -114,7 +125,7 @@ class SpaceShooter(App):
         SpaceShooter.listenKeyEvent("keyup", "space", self.ShootOff)
 
     def ShootOn(self, event):
-        self.blast.shoot(self.shooter.position,450,0)
+        self.blast.shoot(self.shooter.position,430,0)
     def ShootOff(self, event):
         shoot = False
         
