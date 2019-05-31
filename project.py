@@ -2,13 +2,14 @@ from ggame import App, RectangleAsset, ImageAsset, Sprite, LineStyle, Color, Fra
 from ggame import SoundAsset, Sound, TextAsset, Color
 import math
 from time import time
+r = input("What do you want the difficulty to be? .5 = Easy, 1 = Medium, 2 = Extreme!")
 
 class Blast(Sprite):
     asset = ImageAsset("images/player1.png", Frame(119,90,50,50), 1, 'vertical')
     collisionasset = CircleAsset(4)
     
     def __init__(self, app):
-        super().__init__(Bullet.asset, Bullet.collisionasset, (0,0), (0,0))
+        super().__init__(Blast.asset, Blast.collisionasset, (0,0), (0,0))
         self.visible = False
         self.firing = False
         self.time = 0
@@ -50,11 +51,11 @@ class Shooter(Sprite):
         self.y += self.vy
         self.rotation += self.vr
     def RotateLOn(self, event):
-        self.vx = -2
+        self.vx = -3
     def RotateLOff(self, event):
         self.vx = 0
     def RotateROn(self, event):
-        self.vx = 2
+        self.vx = 3
     def RotateROff(self, event):
         self.vx = 0
     def ShootOn(self, event):
@@ -87,8 +88,30 @@ class SpaceShooter(App):
         noline = LineStyle(0, black)
         bg_asset = RectangleAsset(self.width, self.height, noline, black)
         bg = Sprite(bg_asset, (0,0))
-        Shooter((500,470))
-        Enemy((100, 50))
+        Shooter((500,450))
+        Enemy((40, 10))
+        Enemy((130, 10))
+        Enemy((220, 10))
+        Enemy((310, 10))
+        Enemy((400, 10))
+        Enemy((490, 10))
+        Enemy((580, 10))
+        Enemy((670, 10))
+        Enemy((760, 10))
+        Enemy((850, 10))
+        Enemy((940, 10))
+        
+        Enemy((40, 80))
+        Enemy((130, 80))
+        Enemy((220, 80))
+        Enemy((310, 80))
+        Enemy((400, 80))
+        Enemy((490, 80))
+        Enemy((580, 80))
+        Enemy((670, 80))
+        Enemy((760, 80))
+        Enemy((850, 80))
+        Enemy((940, 80))
    
     def step(self):
         for ship in self.getSpritesbyClass(Enemy):
