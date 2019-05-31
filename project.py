@@ -59,7 +59,7 @@ class Shooter(Sprite):
     def RotateROff(self, event):
         self.vx = 0
     def ShootOn(self, event):
-        shoot = True
+        Blast.shoot(self.position,450,Blast.y,Blast.time)
     def ShootOff(self, event):
         shoot = False
 
