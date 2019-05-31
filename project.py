@@ -102,7 +102,6 @@ class Enemy(Sprite):
             self.destroy()
             blast[0].destroy()
 
-
 class SpaceShooter(App):
     def __init__(self):
         super().__init__()
