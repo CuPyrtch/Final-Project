@@ -17,6 +17,12 @@ else:
     f = .75
     print("No input given, defaulted to Medium")
 
+white = Color(0xfffafa, 1.0)
+thinline = LineStyle(1, white)
+rectangle = RectangleAsset(1100, 0, thinline, white)
+bottom = Sprite(rectangle, (0, 510))
+top = Sprite(rectangle, (0, 0))
+
 class Blast(Sprite):
     asset = ImageAsset("images/player1.png", Frame(134,30,18,30), 1, 'vertical')
     collisionasset = CircleAsset(5)
@@ -26,12 +32,14 @@ class Blast(Sprite):
         self.visible = False
         self.firing = False
         self.time = 0
-        self.vy = -1
+        self.vy = 0
+        self.vx = 0
+        self.vr = 0
         
     def shoot(self, position, velocity, time):
         self.position = position
         self.vx = 0
-        self.vy = 1
+        self.vy = -8
         self.time = time
         self.visible = True
         self.firing = True
@@ -89,6 +97,10 @@ class Enemy(Sprite):
         self.x += self.vx
         self.y += self.vy
         self.rotation += self.vr
+        blast = self.collidingWithSprites(Blast)
+        if blast:
+            self.destroy()
+            blast[0].destroy()
 
 
 class SpaceShooter(App):
@@ -123,19 +135,22 @@ class SpaceShooter(App):
         Enemy((850, 80))
         Enemy((940, 80))
    
-        self.blast = Blast(self)
+        #self.blast = Blast(self)
         SpaceShooter.listenKeyEvent("keydown", "space", self.ShootOn)
 
     def ShootOn(self, event):
+        self.blast = Blast(self)
         self.blast.shoot(self.shooter.position,430,0)
-        self.vy = -1
 
         
     def step(self):
+        for ship in self.getSpritesbyClass(Blast):
+            ship.step()
         for ship in self.getSpritesbyClass(Shooter):
             ship.step()
         for ship in self.getSpritesbyClass(Enemy):
             ship.step()
+
 
         
 myapp = SpaceShooter()
