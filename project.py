@@ -41,8 +41,6 @@ class Shooter(Sprite):
         SpaceShooter.listenKeyEvent("keyup", "a", self.LOff)
         SpaceShooter.listenKeyEvent("keydown", "d", self.ROn)
         SpaceShooter.listenKeyEvent("keyup", "d", self.ROff)
-        SpaceShooter.listenKeyEvent("keydown", "space", self.ShootOn)
-        SpaceShooter.listenKeyEvent("keyup", "space", self.ShootOff)
         
 
     def step(self):
@@ -57,10 +55,6 @@ class Shooter(Sprite):
         self.vx = 3
     def ROff(self, event):
         self.vx = 0
-    def ShootOn(self, event):
-        Blast.shoot(self.position,450,Blast.y,0)
-    def ShootOff(self, event):
-        shoot = False
 
 class Enemy(Sprite):
     asset = ImageAsset("images/191-1916209_space-invaders-sprites.png", 
@@ -80,17 +74,17 @@ class Enemy(Sprite):
         self.y += self.vy
         self.rotation += self.vr
     def step(self):
-        Enemy.vy = self.vy
+        self.y += self.vy
     
 
 class SpaceShooter(App):
     def __init__(self):
         super().__init__()
         black = Color(0, 1)
-        noline = LineStyle(0, black)
-        bg_asset = RectangleAsset(self.width, self.height, noline, black)
+        line = LineStyle(0, black)
+        bg_asset = RectangleAsset(self.width, self.height, line, black)
         bg = Sprite(bg_asset, (0,0))
-        Shooter((500,450))
+        self.shooter = Shooter((500,450))
         Enemy((40, 10))
         Enemy((130, 10))
         Enemy((220, 10))
@@ -115,12 +109,20 @@ class SpaceShooter(App):
         Enemy((850, 80))
         Enemy((940, 80))
    
-    def step(self):
-        for ship in self.getSpritesbyClass(Enemy):
-            ship.step()
+        self.blast = Blast(self)
+        SpaceShooter.listenKeyEvent("keydown", "space", self.ShootOn)
+        SpaceShooter.listenKeyEvent("keyup", "space", self.ShootOff)
 
+    def ShootOn(self, event):
+        self.blast.shoot(self.shooter.position,450,0)
+    def ShootOff(self, event):
+        shoot = False
+        
+   
     def step(self):
         for ship in self.getSpritesbyClass(Shooter):
+            ship.step()
+        for ship in self.getSpritesbyClass(Enemy):
             ship.step()
 
         
